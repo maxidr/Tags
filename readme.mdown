@@ -68,6 +68,10 @@ Define the maximum allowed length of tags
 
 Define the css selector for the main tag box element
 
+### valid(tag)
+
+Define a function to validate the tag. Must return a boolean
+
 ## Events
 
 ### onAdd(tag)
@@ -84,7 +88,17 @@ Will be triggered when a user tries to add a duplicate tag
 
 ### onInvalid(tag)
 
-Will be triggered when a user tries to add an invalid tag
+Will be triggered when a user tries to add an invalid tag. To identify the type of error can use _this.errorType_.
+
+Example:
+	
+	onInvalid: function(tag){
+		if( this.errorType == 'badLength' ){
+			// Your code...
+		}
+	}
+
+When the tag length be greater than option.maxLength or less than option.minLength the errorType be set to 'badLength'.
 
 ### onReady()
 

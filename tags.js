@@ -6,6 +6,10 @@
  * @author Bastian Allgeier <bastian@getkirby.com>
  * @copyright Bastian Allgeier 2012
  * @license MIT
+ *  
+ * Modified to support validations. 
+ * Use: https://github.com/maxidr/Tags
+ *
  */
 (function($) {
 
@@ -271,7 +275,8 @@
       onRemove     : function() { },
       onDuplicate  : function() { return plugin.input.focus() },
       onInvalid    : function() { return plugin.input.focus() },
-      onReady      : function() { }
+      onReady      : function() { },
+      valid        : function() { return true }
     }
 
     var plugin = this;
@@ -496,8 +501,13 @@
       } 
         
       var tag = plugin.tag(tag);
+
+      if( !plugin.settings.valid.call(plugin, tag) ) {
+        return plugin.settings.onInvalid.call(plugin, tag);
+      }
           
       if(tag.length < plugin.settings.minLength || tag.length > plugin.settings.maxLength) {
+        this.errorType = 'badLength';
         return plugin.settings.onInvalid.call(plugin, tag, length);
       }
       
